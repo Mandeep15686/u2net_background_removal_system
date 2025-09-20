@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # U²-Net Background Removal System
 
 **Team 1: The Isolationists - Subject & Background Separation Specialists**
@@ -293,3 +294,6 @@ For questions, issues, or support:
 **Built with ❤️ by Team 1: The Isolationists**
 
 *Pixel-perfect subject isolation with deep learning*
+=======
+# AI_Background_Removel
+>>>>>>> 00f75e12fdfaea3088dca843863b2460d5ef2b0f
