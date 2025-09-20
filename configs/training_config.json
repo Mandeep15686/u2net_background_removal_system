@@ -1,0 +1,107 @@
+{
+  "model": {
+    "name": "U2NET",
+    "input_channels": 3,
+    "output_channels": 1,
+    "save_dir": "checkpoints"
+  },
+  "data": {
+    "image_dir": "data/datasets/DUTS/DUTS-TR/DUTS-TR-Image",
+    "mask_dir": "data/datasets/DUTS/DUTS-TR/DUTS-TR-Mask",
+    "image_size": 320,
+    "batch_size": 8,
+    "train_split": 0.8,
+    "num_workers": 4,
+    "datasets": {
+      "DUTS": {
+        "train_images": "data/datasets/DUTS/DUTS-TR/DUTS-TR-Image",
+        "train_masks": "data/datasets/DUTS/DUTS-TR/DUTS-TR-Mask",
+        "test_images": "data/datasets/DUTS/DUTS-TE/DUTS-TE-Image",
+        "test_masks": "data/datasets/DUTS/DUTS-TE/DUTS-TE-Mask",
+        "description": "DUTS dataset with 10,553 training and 5,019 test images"
+      },
+      "HKU-IS": {
+        "images": "data/datasets/HKU-IS/imgs",
+        "masks": "data/datasets/HKU-IS/gt",
+        "description": "HKU-IS dataset with 4,447 challenging images"
+      },
+      "PASCAL-S": {
+        "images": "data/datasets/PASCAL-S/imgs",
+        "masks": "data/datasets/PASCAL-S/gt",
+        "description": "PASCAL-S dataset with 850 images"
+      }
+    }
+  },
+  "training": {
+    "num_epochs": 100,
+    "save_interval": 10,
+    "validation_interval": 5,
+    "gradient_clipping": true,
+    "gradient_clip_value": 1.0,
+    "early_stopping": {
+      "patience": 20,
+      "min_delta": 0.001
+    },
+    "optimizer": {
+      "name": "Adam",
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08
+    },
+    "scheduler": {
+      "name": "StepLR",
+      "step_size": 30,
+      "gamma": 0.1
+    },
+    "loss": {
+      "type": "multi_stage_bce",
+      "edge_aware": false,
+      "focal_gamma": 2.0,
+      "focal_alpha": 1.0
+    },
+    "augmentation": {
+      "horizontal_flip": 0.5,
+      "vertical_flip": 0.1,
+      "rotation_limit": 15,
+      "brightness_contrast": 0.3,
+      "hue_saturation": 0.3,
+      "gaussian_noise": 0.1,
+      "motion_blur": 0.1
+    }
+  },
+  "evaluation": {
+    "metrics": [
+      "iou",
+      "dice",
+      "pixel_accuracy",
+      "mae",
+      "boundary_accuracy"
+    ],
+    "thresholds": [
+      0.3,
+      0.5,
+      0.7,
+      0.9
+    ],
+    "save_predictions": true,
+    "prediction_dir": "results/predictions"
+  },
+  "logging": {
+    "log_level": "INFO",
+    "log_interval": 10,
+    "tensorboard_dir": "runs/u2net_training",
+    "wandb_project": "u2net_background_removal",
+    "save_images": true,
+    "image_log_interval": 100
+  },
+  "hardware": {
+    "device": "cuda",
+    "mixed_precision": true,
+    "pin_memory": true,
+    "non_blocking": true
+  }
+}

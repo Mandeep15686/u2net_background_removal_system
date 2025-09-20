@@ -1,0 +1,50 @@
+{
+  "api": {
+    "title": "U\u00b2-Net Background Removal API",
+    "description": "Pixel-perfect subject isolation with deep learning",
+    "version": "1.0.0",
+    "host": "0.0.0.0",
+    "port": 8000,
+    "workers": 4,
+    "timeout": 30,
+    "max_file_size_mb": 10,
+    "max_batch_size": 8,
+    "cors": {
+      "allow_origins": [
+        "*"
+      ],
+      "allow_methods": [
+        "GET",
+        "POST"
+      ],
+      "allow_headers": [
+        "*"
+      ]
+    }
+  },
+  "model": {
+    "model_path": "models/u2net_best.pth",
+    "onnx_path": "models/u2net.onnx",
+    "engine_type": "onnx",
+    "image_size": 320,
+    "device": "cuda",
+    "batch_size": 8
+  },
+  "optimization": {
+    "enable_tensorrt": false,
+    "enable_quantization": false,
+    "precision": "fp32",
+    "optimization_level": "all"
+  },
+  "monitoring": {
+    "enable_metrics": true,
+    "metrics_port": 9090,
+    "health_check_interval": 30,
+    "log_requests": true
+  },
+  "cache": {
+    "enable_caching": false,
+    "cache_dir": "cache",
+    "max_cache_size_gb": 1.0
+  }
+}
